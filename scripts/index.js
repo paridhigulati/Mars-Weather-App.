@@ -5,19 +5,24 @@ const previousWeatherToggle = document.querySelector('.show-previous-weather');
 const previousWeather = document.querySelector('.previous-weather')
 
 const currentSolElement = document.querySelector('[data-current-sol]')
+
+
 const currentDateElement = document.querySelector('[data-current-date]')
+
 const currentTempHighElement = document.querySelector('[data-current-temp-high]')
 const currentTempLowElement = document.querySelector('[data-current-temp-low]')
 const windSpeedElement = document.querySelector('[data-wind-speed]')
+
 const windDirectionText = document.querySelector('[data-wind-direction-text]')
 const windDirectionArrow = document.querySelector('[data-wind-direction-arrow]')
 
 const previousSolTemplate = document.querySelector('[data-previous-sol-template]')
 const previousSolContainer = document.querySelector('[data-previous-sols]')
 
-const unitToggle =  document.querySelector('[data-unit-toggle')
+const unitToggle = document.querySelector('[data-unit-toggle]')
 const metricRadio = document.getElementById('cel')
 const imperialRadio = document.getElementById('fah')
+
 previousWeatherToggle.addEventListener('click', () => {
 	previousWeather.classList.toggle('show-weather')
 })
@@ -35,21 +40,23 @@ getWeather().then(sols => {
 		metricRadio.checked = metricUnits
 		imperialRadio.checked = !metricUnits
 		displaySelectedSol(sols)
-	displayPreviousSols(sols)
+		displayPreviousSols(sols)
 		updateUnits()
-	
 	})
-	metricRadio.addEventListener('change', ()=> {
+
+	metricRadio.addEventListener('change', () => {
 		displaySelectedSol(sols)
-	displayPreviousSols(sols)
+		displayPreviousSols(sols)
 		updateUnits()
+	})
+
+	imperialRadio.addEventListener('change', () => {
+		displaySelectedSol(sols)
+		displayPreviousSols(sols)
+		updateUnits()
+	})
 })
-imperialRadio.addEventListener('change', ()=>{
-	displaySelectedSol(sols)
-	displayPreviousSols(sols)
-	updateUnits()
-})	
-})	
+
 function displaySelectedSol(sols) {
 	const selectedSol = sols[selectedSolIndex]
 	currentSolElement.innerText = selectedSol.sol
@@ -83,7 +90,6 @@ function displayDate(date) {
 		{ day: 'numeric', month: 'long' }
 	)
 }
-
 
 function displayTemperature(temperature) {
 	let returnTemp = temperature
@@ -123,19 +129,19 @@ function getWeather() {
 				}
 			})
 		})
-	}
-	function updateUnits() 
-	{
-		const speedUnits = document.querySelectorAll('[data-speed-unit]')
-		const tempUnits = document.querySelectorAll('[data-temp-unit]')
-		speedUnits.forEach(unit => {
-			unit.innerText = isMetric()? 'kph': 'mph'
-		})
-		tempUnits.forEach(unit=> {
-			unit.innerText = isMetric()? 'C' : 'F'
-		})
-	}
-	function isMetric(){
-	return metricRadio.checked;	
 }
 
+function updateUnits() {
+	const speedUnits = document.querySelectorAll('[data-speed-unit]')
+	const tempUnits = document.querySelectorAll('[data-temp-unit]')
+	speedUnits.forEach(unit => {
+		unit.innerText = isMetric() ? 'kph' : 'mph'
+	})
+	tempUnits.forEach(unit => {
+		unit.innerText = isMetric() ? 'C' : 'F'
+	})
+}
+
+function isMetric() {
+	return metricRadio.checked
+}
